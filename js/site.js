@@ -76,17 +76,55 @@ function buildDropDown() {
 
     resultsHTML += linkHTMLEnd;
     eventDD.innerHTML = resultsHTML;
-
-
-
-
+    displayStats();
 }
 
-function getEvents(element) {
 
+//get the events for the selected city
+function getEvents(element) {
+    let city = element.getAttribute("data-string");
+    curEvents = JSON.parse(localStorage.getItem("eventBook")) || eventArray;
+    filteredEvents = curEvents;
+    document.getElementById("statsHeader").innerHTML = `Stats for ${city} Events`;
+    if (city != "All") {
+        filteredEvents = curEvents.filter(function (event) {
+            if (event.city == city) {
+                return event;
+            }
+        });
+    }
+    displayStats();
 }
 
 function displayStats() {
+    let total = 0;
+    let average = 0;
+    let most = 0;
+    let least = -1;
+    let currentAttendance = 0;
+
+    for (let i = 0; i < filteredEvents.length; i++) {
+        currentAttendance = filteredEvents[i].attendance;
+        total += currentAttendance;
+
+        if (most < currentAttendance) {
+            most = currentAttendance;
+        }
+        if (least > currentAttendance || least < 0) {
+            least = currentAttendance;
+        }
+
+    }
+
+    average = total / filteredEvents.length;
+    document.getElementById("total").innerHTML = total.toLocaleString();
+    document.getElementById("most").innerHTML = most.toLocaleString();
+    document.getElementById("least").innerHTML = least.toLocaleString();
+    document.getElementById("average").innerHTML = average.toLocaleString();
+    undefined, {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+    }
 
 }
 
