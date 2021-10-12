@@ -127,8 +127,11 @@ function displayStats() {
     }
 
 }
+var el = document.getElementById("buildDropDown");
+if (el != null) {
+    loadeventBook();
+}
 
-loadeventBook();
 
 function loadeventBook() {
     let eventBook = [];
@@ -163,6 +166,7 @@ function saveEvent() {
     displayData(eventBook);
 
 }
+
 
 function displayData(eventBook) {
     const template = document.getElementById("Data-template");
